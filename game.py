@@ -15,9 +15,24 @@ def bezier(p0, p1, p2, p3, t):
 
 
 
+CURRENT_WAVE = 1
+
+WAVE_PALETTES = {
+    1: {"boss": (90, 230, 110), "red": (245, 75, 75), "blue": (70, 160, 255)},
+    2: {"boss": (255, 205, 50), "red": (255, 130, 45), "blue": (30, 220, 255)},
+    3: {"boss": (255, 60, 100), "red": (255, 50, 150), "blue": (120, 255, 80)},
+    4: {"boss": (180, 70, 255), "red": (40, 230, 210), "blue": (255, 220, 50)},
+}
+
+
 def enemy_tint(kind):
     """Return an (r, g, b) colour override for an enemy kind, or None for the default."""
-    pass
+    palette = WAVE_PALETTES.get(CURRENT_WAVE)
+    if not palette:
+        cycle = (CURRENT_WAVE - 1) % 4 + 1
+        palette = WAVE_PALETTES.get(cycle)
+    return palette.get(kind) if palette else None
+
 
 
 def on_wave_start(wave):
